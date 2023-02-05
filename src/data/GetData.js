@@ -4,7 +4,6 @@ export class GetData extends LitElement {
 	static get properties() {
 		return {
 			url: { type: String },
-			method: { type: String },
 		};
 	}
 
@@ -27,7 +26,7 @@ export class GetData extends LitElement {
 	}
 
 	getData() {
-		fetch(this.url, { method: this.method })
+		fetch(this.url, { method: 'GET' })
 			.then((response) => {
 				if (response.ok) return response.json();
 				return Promise.reject(response);

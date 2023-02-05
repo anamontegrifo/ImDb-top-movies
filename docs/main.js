@@ -3250,7 +3250,6 @@ class MovieList extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 			});
 		});
 		this.movies = moviesArray;
-		console.log('las pelis', this.movies);
 	}
 
 	static get styles() {
