@@ -15,6 +15,7 @@ export class MovieCard extends LitElement {
 		return css`
 			.card {
 				font-family: 'Righteous', cursive;
+				font-family: 'Roboto', sans-serif;
 				display: flex;
 				width: 500px;
 				height: 250px;
@@ -26,14 +27,19 @@ export class MovieCard extends LitElement {
 				padding: 10px;
 				display: flex;
 				flex-direction: column;
+				justify-content: space-between;
 				width: 60%;
 			}
-			.card-rank {
+			.card-title {
+				font-family: 'Righteous', cursive;
 				font-size: 20px;
 			}
 			.box-container {
 				display: flex;
 				justify-content: space-evenly;
+			}
+			.card-crew {
+				font-family: 'Roboto', sans-serif;
 			}
 			img {
 				height: 100%;
@@ -51,12 +57,14 @@ export class MovieCard extends LitElement {
 					<div class="card">
 						<img src=${movie.image} alt="movie image" />
 						<div class="card-info">
-							<p class="card-rank">#${movie.rank}</p>
-							<p class="card-title">${movie.title}</p>
+							<p class="card-title">#${movie.rank} ${movie.title}</p>
 							<p class="card-crew">Crew: ${movie.crew}</p>
 							<div class="box-container">
-								<light-box text="${movie.year}"></light-box>
-								<light-box text=" ${movie.imDbRating}"></light-box>
+								<light-box title="Year" text="${movie.year}"></light-box>
+								<light-box
+									title="Rating"
+									text=" ${movie.imDbRating}"
+								></light-box>
 							</div>
 						</div>
 					</div>

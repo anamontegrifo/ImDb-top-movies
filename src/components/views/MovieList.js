@@ -32,16 +32,15 @@ export class MovieList extends LitElement {
 			});
 		});
 
-		this.movies = moviesArray;
+		this.movies = this.filteredMovies = moviesArray;
 	}
 
-	filterArray(e) {
-		this.inputValue = e.detail.toLocaleLowerCase();
-
+	filterArray(ev, data) {
+		let fixedMovies = this.movies;
+		this.inputValue = ev.detail.toLocaleLowerCase();
 		this.filteredMovies = this.movies.filter((each) =>
 			each.title.toLocaleLowerCase().includes(this.inputValue)
 		);
-		this.movies = this.filteredMovies;
 	}
 
 	static get styles() {
@@ -64,8 +63,9 @@ export class MovieList extends LitElement {
 				.value="${this.inputValue}"
 				@change="${this.filterArray}"
 				labelTitle="Is your favourite movie here?"
+				placeholder="Seven Samurai"
 			></input-filter>
-			<movie-card class="container" .list="${this.movies}"></movie-card>
+			<movie-card class="container" .list="${this.filteredMovies}"></movie-card>
 		`;
 	}
 }

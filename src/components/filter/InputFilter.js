@@ -15,13 +15,9 @@ export class InputFilter extends LitElement {
 
 	static get styles() {
 		return css`
-			.box {
-				background-color: #f9dc01;
-				height: 25px;
-				width: 60px;
-				border-radius: 5px;
-				text-align: center;
-				font-size: 20px;
+			:host {
+				font-family: 'Roboto', sans-serif;
+				padding: 15px;
 			}
 		`;
 	}
@@ -41,7 +37,12 @@ export class InputFilter extends LitElement {
 		return html`
 			<label
 				>${this.labelTitle}
-				<input @input="${this._filterItem}" type="text" value="${this.value}" />
+				<input
+					@input="${this._filterItem}"
+					type="text"
+					value="${this.value}"
+					placeholder="${this.placeholder}"
+				/>
 			</label>
 		`;
 	}

@@ -8,7 +8,7 @@ export class HeaderList extends LitElement {
 		return css`
 			.header {
 				display: flex;
-				padding: 15px 0;
+				padding: 15px;
 				font-family: 'Righteous', cursive;
 			}
 			img {

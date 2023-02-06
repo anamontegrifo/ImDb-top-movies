@@ -3098,6 +3098,7 @@ class LightBox extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	static get properties() {
 		return {
 			text: { type: String },
+			title: { type: String },
 		};
 	}
 
@@ -3108,18 +3109,31 @@ class LightBox extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	static get styles() {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.css`
 			.box {
-				background-color: white;
-				height: 25px;
+				font-family: 'Righteous', cursive;
+				background-color: #f9dc01;
+				height: 40px;
 				width: 60px;
 				border-radius: 5px;
 				text-align: center;
+			}
+			.text {
+				margin: 0;
 				font-size: 20px;
+			}
+			.title {
+				margin: 0;
+				font-size: 12px;
 			}
 		`;
 	}
 
 	render() {
-		return lit__WEBPACK_IMPORTED_MODULE_0__.html` <div class="box">${this.text}</div> `;
+		return lit__WEBPACK_IMPORTED_MODULE_0__.html`
+			<div class="box">
+				<p class="text">${this.text}</p>
+				<p class="title">${this.title}</p>
+			</div>
+		`;
 	}
 }
 
@@ -3156,26 +3170,34 @@ class MovieCard extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.css`
 			.card {
 				font-family: 'Righteous', cursive;
+				font-family: 'Roboto', sans-serif;
 				display: flex;
-				flex-direction: row;
-				border: 1px solid black;
 				width: 500px;
-				height: 300px;
+				height: 250px;
 				margin-bottom: 5px;
+				padding: 10px;
 				background-color: #04293a;
 			}
 			.card-info {
 				padding: 10px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				width: 60%;
 			}
-			.card-rank {
-				font-size: 30px;
+			.card-title {
+				font-family: 'Righteous', cursive;
+				font-size: 20px;
 			}
 			.box-container {
 				display: flex;
 				justify-content: space-evenly;
 			}
+			.card-crew {
+				font-family: 'Roboto', sans-serif;
+			}
 			img {
-				width: 200px;
+				height: 100%;
 			}
 			p {
 				color: white;
@@ -3190,12 +3212,14 @@ class MovieCard extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 					<div class="card">
 						<img src=${movie.image} alt="movie image" />
 						<div class="card-info">
-							<p class="card-rank">#${movie.rank}</p>
-							<p class="card-title">${movie.title}</p>
-							<p class="card-year">${movie.year}</p>
+							<p class="card-title">#${movie.rank} ${movie.title}</p>
+							<p class="card-crew">Crew: ${movie.crew}</p>
 							<div class="box-container">
-								<light-box text="${movie.year}"></light-box>
-								<light-box text=" ${movie.imDbRating}"></light-box>
+								<light-box title="Year" text="${movie.year}"></light-box>
+								<light-box
+									title="Rating"
+									text=" ${movie.imDbRating}"
+								></light-box>
 							</div>
 						</div>
 					</div>
@@ -3209,80 +3233,75 @@ customElements.define('movie-card', MovieCard);
 
 /***/ }),
 
-/***/ "./src/components/views/MovieList.js":
-/*!*******************************************!*\
-  !*** ./src/components/views/MovieList.js ***!
-  \*******************************************/
+/***/ "./src/components/filter/InputFilter.js":
+/*!**********************************************!*\
+  !*** ./src/components/filter/InputFilter.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MovieList": () => (/* binding */ MovieList)
+/* harmony export */   "InputFilter": () => (/* binding */ InputFilter)
 /* harmony export */ });
 /* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
 
 
-class MovieList extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
+class InputFilter extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	static get properties() {
 		return {
-			movies: { type: Array },
+			value: { type: String },
+			labelTitle: { type: String },
+			placeholder: { type: String },
 		};
 	}
 
 	constructor() {
 		super();
-		this.movies = [];
-		this.addEventListener('ApiData', (e) => {
-			this.dataFormat(e.detail.data);
-		});
-	}
-
-	dataFormat(data) {
-		let moviesArray = [];
-		data['items'].map((movie) => {
-			moviesArray.push({
-				rank: movie.rank,
-				title: movie.title,
-				year: movie.year,
-				image: movie.image,
-				crew: movie.crew,
-				imDbRating: movie.imDbRating,
-			});
-		});
-		this.movies = moviesArray;
 	}
 
 	static get styles() {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.css`
-			.container {
-				display: flex;
-				flex-direction: column;
-				background-color: #c69749;
-				padding: 20px;
+			:host {
+				font-family: 'Roboto', sans-serif;
+				padding: 15px;
 			}
 		`;
 	}
 
+	_filterItem(e) {
+		this.value = e.currentTarget.value;
+		this.dispatchEvent(
+			new CustomEvent('change', {
+				detail: this.value,
+				bubbles: true,
+				composed: true,
+			})
+		);
+	}
+
 	render() {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.html`
-			<get-data
-				url="https://imdb-api.com/en/API/Top250Movies/k_tmzc8fjq"
-				method="GET"
-			></get-data>
-			<header-list></header-list>
-			<movie-card class="container" .list="${this.movies}"></movie-card>
+			<label
+				>${this.labelTitle}
+				<input
+					@input="${this._filterItem}"
+					type="text"
+					value="${this.value}"
+					placeholder="${this.placeholder}"
+				/>
+			</label>
 		`;
 	}
 }
 
-customElements.define('movie-list', MovieList);
+customElements.define('input-filter', InputFilter);
 
 
 /***/ }),
 
-/***/ "./src/components/views/header.js":
+/***/ "./src/components/views/Header.js":
 /*!****************************************!*\
-  !*** ./src/components/views/header.js ***!
+  !*** ./src/components/views/Header.js ***!
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -3301,7 +3320,7 @@ class HeaderList extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.css`
 			.header {
 				display: flex;
-				padding: 15px 0;
+				padding: 15px;
 				font-family: 'Righteous', cursive;
 			}
 			img {
@@ -3329,6 +3348,94 @@ customElements.define('header-list', HeaderList);
 
 /***/ }),
 
+/***/ "./src/components/views/MovieList.js":
+/*!*******************************************!*\
+  !*** ./src/components/views/MovieList.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MovieList": () => (/* binding */ MovieList)
+/* harmony export */ });
+/* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
+
+
+class MovieList extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
+	static get properties() {
+		return {
+			movies: { type: Array },
+			filteredMovies: { type: Array },
+			inputValue: { type: String },
+		};
+	}
+
+	constructor() {
+		super();
+		this.movies = [];
+		this.filteredMovies = [];
+		this.inputValue = '';
+		this.addEventListener('ApiData', (e) => {
+			this.dataFormat(e.detail.data);
+		});
+	}
+
+	dataFormat(data) {
+		let moviesArray = [];
+		data['items'].map((movie) => {
+			moviesArray.push({
+				rank: movie.rank,
+				title: movie.title,
+				year: movie.year,
+				image: movie.image,
+				crew: movie.crew,
+				imDbRating: movie.imDbRating,
+			});
+		});
+
+		this.movies = this.filteredMovies = moviesArray;
+	}
+
+	filterArray(ev, data) {
+		let fixedMovies = this.movies;
+		this.inputValue = ev.detail.toLocaleLowerCase();
+		this.filteredMovies = this.movies.filter((each) =>
+			each.title.toLocaleLowerCase().includes(this.inputValue)
+		);
+	}
+
+	static get styles() {
+		return lit__WEBPACK_IMPORTED_MODULE_0__.css`
+			.container {
+				display: flex;
+				flex-direction: column;
+				padding: 20px;
+			}
+		`;
+	}
+
+	render() {
+		return lit__WEBPACK_IMPORTED_MODULE_0__.html`
+			<get-data
+				url="https://imdb-api.com/en/API/Top250Movies/k_2f0gbnvc/"
+			></get-data>
+			<header-list></header-list>
+			<input-filter
+				.value="${this.inputValue}"
+				@change="${this.filterArray}"
+				labelTitle="Is your favourite movie here?"
+				placeholder="Seven Samurai"
+			></input-filter>
+			<movie-card class="container" .list="${this.filteredMovies}"></movie-card>
+		`;
+	}
+}
+
+customElements.define('movie-list', MovieList);
+
+
+/***/ }),
+
 /***/ "./src/data/GetData.js":
 /*!*****************************!*\
   !*** ./src/data/GetData.js ***!
@@ -3346,7 +3453,6 @@ class GetData extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	static get properties() {
 		return {
 			url: { type: String },
-			method: { type: String },
 		};
 	}
 
@@ -3369,7 +3475,7 @@ class GetData extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	}
 
 	getData() {
-		fetch(this.url, { method: this.method })
+		fetch(this.url, { method: 'GET' })
 			.then((response) => {
 				if (response.ok) return response.json();
 				return Promise.reject(response);
@@ -3454,7 +3560,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_views_MovieList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/views/MovieList */ "./src/components/views/MovieList.js");
 /* harmony import */ var _data_GetData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./data/GetData */ "./src/data/GetData.js");
 /* harmony import */ var _components_card_LightBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/card/LightBox */ "./src/components/card/LightBox.js");
-/* harmony import */ var _components_views_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/views/header */ "./src/components/views/header.js");
+/* harmony import */ var _components_views_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/views/Header */ "./src/components/views/Header.js");
+/* harmony import */ var _components_filter_InputFilter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/filter/InputFilter */ "./src/components/filter/InputFilter.js");
+
 
 
 
