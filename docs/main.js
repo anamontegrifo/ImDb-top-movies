@@ -3417,7 +3417,7 @@ class MovieList extends lit__WEBPACK_IMPORTED_MODULE_0__.LitElement {
 	render() {
 		return lit__WEBPACK_IMPORTED_MODULE_0__.html`
 			<get-data
-				url="https://imdb-api.com/en/API/Top250Movies/k_2f0gbnvc/"
+				url="https://imdb-api.com/en/API/Top250Movies/k_tmzc8fjq/"
 			></get-data>
 			<header-list></header-list>
 			<input-filter
