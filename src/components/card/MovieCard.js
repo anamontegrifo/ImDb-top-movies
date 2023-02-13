@@ -49,7 +49,7 @@ export class MovieCard extends LitElement {
 
   render() {
     return html`
-      ${this.movies.length === 0
+      ${!this.movies
         ? html`<h1>Sorry, the movie you choose isn´t here!</h1>`
         : this.movies.map(
             movie => html`

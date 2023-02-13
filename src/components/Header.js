@@ -24,9 +24,10 @@ export class HeaderList extends LitElement {
         display: flex;
         padding: 15px;
         font-family: 'Righteous', cursive;
+        font-size: 20px;
       }
       img {
-        height: 100px;
+        height: 80px;
         margin-right: 10px;
       }
     `;
