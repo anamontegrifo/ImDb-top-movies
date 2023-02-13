@@ -1,25 +1,63 @@
 {
-  "name": "lit-element",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "top_movies",
+  "description": "Webcomponent Top movies following open-wc recommendations",
+  "license": "MIT",
+  "author": "Ana",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "webpack serve",
-    "build": "webpack build"
+    "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "build": "rimraf docs && rollup -c rollup.config.js && npm run analyze -- --exclude docs",
+    "start:build": "web-dev-server --root-dir docs --app-index index.html --open",
+    "analyze": "cem analyze --litelement",
+    "start": "web-dev-server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "lit": "^2.6.1",
-    "lit-element": "^2.4.0",
-    "minireset.css": "^0.0.7"
+    "lit": "^2.0.2"
   },
   "devDependencies": {
-    "html-webpack-plugin": "^5.3.1",
-    "webpack": "^5.31.0",
-    "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
-  }
+    "@babel/preset-env": "^7.16.4",
+    "@custom-elements-manifest/analyzer": "^0.4.17",
+    "@open-wc/building-rollup": "^2.0.2",
+    "@open-wc/eslint-config": "^9.2.1",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@web/dev-server": "^0.1.35",
+    "@web/rollup-plugin-html": "^1.11.0",
+    "@web/rollup-plugin-import-meta-assets": "^1.0.7",
+    "babel-plugin-template-html-minifier": "^4.1.0",
+    "deepmerge": "^4.2.2",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.4.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-workbox": "^6.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "customElements": "custom-elements.json"
 }
