@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import './components/Header.js';
 import './components/MovieList.js';
 import './data/GetData.js';
+import './components/filter/InputFilter.js';
 
 class TopMovies extends LitElement {
   static properties = {

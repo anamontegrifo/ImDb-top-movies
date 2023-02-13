@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import './filter/InputFilter.js';
 
 export class HeaderList extends LitElement {
   static get properties() {
