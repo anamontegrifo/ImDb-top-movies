@@ -97,8 +97,8 @@ class TopMovies extends LitElement {
       <header-list
         logoURL="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg"
         logoAlt="imDb Logo"
-				headline="Top 250 movies"
-      ></header-list>
+      >
+			<h1 slot="title">Top 250 movies</h1></header-list>
 			<input-filter
         .value="${this.inputValue}"
         @change="${this.filterArray}"

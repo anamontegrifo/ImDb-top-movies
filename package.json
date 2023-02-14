@@ -19,7 +19,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
     "@custom-elements-manifest/analyzer": "^0.4.17",
-    "@open-wc/building-rollup": "^2.0.2",
+    "@open-wc/building-rollup": "^2.2.1",
     "@open-wc/eslint-config": "^9.2.1",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
@@ -27,7 +27,8 @@
     "@web/rollup-plugin-html": "^1.11.0",
     "@web/rollup-plugin-import-meta-assets": "^1.0.7",
     "babel-plugin-template-html-minifier": "^4.1.0",
-    "deepmerge": "^4.2.2",
+    "deepmerge": "^4.3.0",
+    "es-dev-server": "^2.1.0",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^4.3.8",

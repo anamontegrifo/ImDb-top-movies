@@ -37,7 +37,7 @@ export class HeaderList extends LitElement {
     return html`
       <div class="header">
         <img src="${this.logoURL}" alt="${this.logoAlt}" />
-        <h1>${this.headline}</h1>
+        <slot name="title"></slot>
       </div>
     `;
   }
